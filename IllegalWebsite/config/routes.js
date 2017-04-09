@@ -1,6 +1,7 @@
 const userController = require('./../controllers/user');
 const articleController = require('./../controllers/article');
 const homeController = require('./../controllers/home');
+const profileController = require('./../controllers/profile');
 
 module.exports = (app) => {
     app.get('/', homeController.index);
@@ -23,5 +24,7 @@ module.exports = (app) => {
 
     app.get('/article/delete/:id', articleController.deleteGet);
     app.post('/article/delete/:id', articleController.deletePost);
+
+    app.get('/user/profile/', profileController.profileGet);
     
 };
