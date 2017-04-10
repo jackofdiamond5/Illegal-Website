@@ -32,6 +32,17 @@ module.exports = {
                 if (err) {
                     res.redirect('/', {error: err.message});
                 } else {
+
+                    console.log("1");
+                    var upload = multer({
+                        dest: __dirname + "../public/uploads"
+                    });
+                    
+                    router.post('article/create', upload.single('image'), (req, res) => {
+                        res.send(req.file); //not executed
+                        console.log("2");
+                    })  
+
                     res.redirect('/');
                 }
             })
@@ -134,18 +145,6 @@ module.exports = {
                     res.redirect('/');
                 })
             }
-        })
-    },
-    
-    uploadImage: (req, res) => {
-        console.log("1");
-        var upload = multer({
-            dest: __dirname + "../public/uploads"
-        });
-        
-        router.post('article/create', upload, (req, res) => {
-            res.send(req.file);
-            console.log("2");
         })
     }
 };
