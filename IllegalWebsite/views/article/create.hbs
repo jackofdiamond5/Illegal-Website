@@ -23,7 +23,14 @@
                         <button type="reset" class="btn btn-default">Cancel</button>
 
                         <button type="submit" class="btn btn-primary">Submit</button>
-
+                        
+                        <br><br>
+                        <div>Upload your item's picture:<div>
+                        <form action="article/create" method="POST" enctype="multipart/form-data">
+                            <input type="file" name="image"></input>
+                        </form>
+                    
+                        
                     </div>  
                 </div>
             </fieldset>

@@ -1,13 +1,16 @@
 const Article = require('mongoose').model('Article');
-
+var express = require('express');
+var router = express.Router();
+var multer = require('multer');
+console.log("0");
 module.exports = {
     createGet: (req, res) => {
         res.render('article/create');
     },
-
+    
     createPost: (req, res) => {
         let articleArgs = req.body;
-
+        
         let errorMsg = '';
         if(!req.isAuthenticated()){
             errorMsg = 'You should be logged in to make articles!'
@@ -131,6 +134,18 @@ module.exports = {
                     res.redirect('/');
                 })
             }
+        })
+    },
+    
+    uploadImage: (req, res) => {
+        console.log("1");
+        var upload = multer({
+            dest: __dirname + "../public/uploads"
+        });
+        
+        router.post('article/create', upload, (req, res) => {
+            res.send(req.file);
+            console.log("2");
         })
     }
 };

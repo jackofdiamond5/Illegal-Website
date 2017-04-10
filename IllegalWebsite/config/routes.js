@@ -16,6 +16,7 @@ module.exports = (app) => {
 
     app.get('/article/create', articleController.createGet);
     app.post('/article/create', articleController.createPost);
+    app.post('/article/create', articleController.uploadImage); //////
 
     app.get('/article/details/:id', articleController.details);
 
@@ -26,5 +27,5 @@ module.exports = (app) => {
     app.post('/article/delete/:id', articleController.deletePost);
 
     app.get('/user/profile/', profileController.profileGet);
-    
-};
+
+}
