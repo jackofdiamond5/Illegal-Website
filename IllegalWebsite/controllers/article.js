@@ -1,8 +1,5 @@
 const Article = require('mongoose').model('Article');
-var express = require('express');
-var router = express.Router();
-var multer = require('multer');
-console.log("0");
+
 module.exports = {
     createGet: (req, res) => {
         res.render('article/create');
@@ -32,18 +29,7 @@ module.exports = {
                 if (err) {
                     res.redirect('/', {error: err.message});
                 } else {
-
-                    console.log("1");
-                    var upload = multer({
-                        dest: __dirname + "../public/uploads"
-                    });
-                    
-                    router.post('article/create', upload.single('image'), (req, res) => {
-                        res.send(req.file); //not executed
-                        console.log("2");
-                    })  
-
-                    res.redirect('/');
+                    res.redirect('/'); 
                 }
             })
         })
