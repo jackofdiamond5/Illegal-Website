@@ -2,6 +2,7 @@ const userController = require('./../controllers/user');
 const articleController = require('./../controllers/article');
 const homeController = require('./../controllers/home');
 const profileController = require('./../controllers/profile');
+const allListingsController = require('./../controllers/alllistings');
 
 module.exports = (app) => {
     app.get('/', homeController.index);
@@ -26,5 +27,7 @@ module.exports = (app) => {
     app.post('/article/delete/:id', articleController.deletePost);
 
     app.get('/user/profile/', profileController.profileGet);
+
+    app.get('/home/listings/', allListingsController.allListings);
 
 }
