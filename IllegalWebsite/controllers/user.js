@@ -2,6 +2,11 @@ const User = require('mongoose').model('User');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../utilities/encryption');
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 module.exports = {
     registerGet: (req, res) => {
         res.render('user/register');
@@ -37,18 +42,22 @@ module.exports = {
                         roles: roles
                     };
 
-                    userObject.roles = roles;
-                    User.create(userObject).then(user => {
-                        user.prepareInsert();
-                        req.logIn(user, (err) => {
-                            if (err) {
-                                registerArgs.error = err.message;
-                                res.render('user/register', registerArgs);
-                                return;
-                            }
-                            res.redirect('/')
-                        })
-                    })
+                    if(!validateEmail(userObject.email)){
+                        res.render('user/register', {error: "Invalid email!"}); 
+                    } else {
+                        userObject.roles = roles;
+                        User.create(userObject).then(user => {
+                            user.prepareInsert();
+                            req.logIn(user, (err) => {
+                                if (err) {
+                                    registerArgs.error = err.message;
+                                    res.render('user/register', registerArgs);
+                                    return;
+                                }
+                                res.redirect('/')
+                            })
+                        })   
+                    }
                 });
             }
         });
