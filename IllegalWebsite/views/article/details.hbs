@@ -6,7 +6,11 @@
                 <header>
                     <h2>{{title}}</h2>
                 </header>
-
+                
+                {{#if imagePath}}
+                    <img src="{{imagePath}}" alt="Weapon" width="300px"> 
+                {{/if}}
+                
                 <p>
                     {{content}}
                 </p>

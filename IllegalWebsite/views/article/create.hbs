@@ -1,6 +1,6 @@
 <div class="container body-content span=8 offset=2">
     <div class="well">
-        <form class="form-horizontal" method="POST" action="/article/create">
+        <form class="form-horizontal" method="POST" action="/article/create" enctype="multipart/form-data">
             <fieldset>
                 <legend>New Article</legend>
 
@@ -22,16 +22,19 @@
 
                         <button type="reset" class="btn btn-default">Cancel</button>
 
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                        
+                        <button class="btn upload-btn" type="button" onclick="document.getElementById('upload-input').click()">Upload File</button>
+                        
+                        <input type="file" name="image" id="upload-input">         
                     </div>  
                 </div>        
             </fieldset>
         </form>
-        <br><br>
-        <div>Upload your item's picture:<div>
-        <form action="/article/create" method="POST" enctype="multipart/form-data">
-            <input type="file" name="image">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <script>
+            $('#upload-input').on('change', function(){
+                $('.upload-btn').html('Picture Uploaded!');
+            });
+        </script>
     </div>
 </div>

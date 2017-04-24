@@ -1,4 +1,5 @@
 const Article = require('mongoose').model('Article');
+const randomChars = require('./../utilities/encryption');
 
 module.exports = {
     createGet: (req, res) => {
@@ -22,15 +23,31 @@ module.exports = {
             return;
         }
 
+        let image = req.files.image;
+        let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
+        let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
+
+        image.name = `${imageName}_${randomChars
+            .generateSalt()
+            .substring(0, 8)
+            .replace('/\//g', 'ill')}.${imageExtension}`;
+        
+        if(image){
+            image.mv(`./public/uploads/${image.name}`, err => {
+                if(err){
+                    console.log(err.message);
+                }
+            })
+
+            articleArgs.imagePath = `/uploads/${image.name}`;
+        }
+
+
+
         articleArgs.author = req.user.id;
         Article.create(articleArgs).then(article => {
-            articleArgs.author = req.user.id;
-            Article.create(articleArgs).then(article => {
-                article.prepareInsert();
-                res.redirect('/');
-
-            });
-
+            article.prepareInsert();
+            res.redirect('/');
         })
 
     },
