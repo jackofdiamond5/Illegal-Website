@@ -33,7 +33,7 @@ module.exports = {
             .replace('/\//g', 'ill')}.${imageExtension}`;
         
         if(image){
-            image.mv(`./public/uploads/${image.name}`, err => {
+            image.mv(`./public/uploads/ListingsImages/${image.name}`, err => {
                 if(err){
                     console.log(err.message);
                 }

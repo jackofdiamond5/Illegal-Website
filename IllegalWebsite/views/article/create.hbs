@@ -22,11 +22,11 @@
 
                         <button type="reset" class="btn btn-default">Cancel</button>
 
-                        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                        <button type="submit" class="btn btn-primary" id="submit" onclick="hasPicture()">Submit</button>
                         
                         <button class="btn upload-btn" type="button" onclick="document.getElementById('upload-input').click()">Upload File</button>
                         
-                        <input type="file" name="image" id="upload-input">         
+                        <input type="file" name="image" id="upload-input" required>         
                     </div>  
                 </div>        
             </fieldset>
@@ -35,6 +35,13 @@
             $('#upload-input').on('change', function(){
                 $('.upload-btn').html('Picture Uploaded!');
             });
+
+            function hasPicture(){
+                var files = document.getElementById('upload-input').files;
+                if(files.length <= 0){
+                    alert('You need to upload a picture!');
+                }
+            }
         </script>
     </div>
 </div>
