@@ -28,6 +28,7 @@ module.exports = (app) => {
     app.post('/article/delete/:id', articleController.deletePost);
 
     app.get('/user/profile/', profileController.profileGet);
+    app.get('/user/profile/', profileController.profilePost);
 
     app.get('/home/listings/', allListingsController.allListings);
 

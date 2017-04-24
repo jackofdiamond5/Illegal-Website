@@ -10,6 +10,12 @@ module.exports = {
         else{
             res.render('user/profile');
         }
+    },
+
+    profilePost: (req, res) => {
+        let id = req.user.id;
+        
+        res.end('Not done yet');
     }
 };
 

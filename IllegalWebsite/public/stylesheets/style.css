@@ -18,6 +18,10 @@
 
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
+#uploadPic{
+	display: none;
+}
+
 .btn:focus, .upload-btn:focus{
 	outline: 0 !important;
 }
@@ -33,7 +37,7 @@
 .upload-btn:active,
 .upload-btn.active{
 	color: #ffffff;
-	background-color: #FA8900;
+	background-color: #1357c4;
 	border: none;
 }
 
