@@ -13,7 +13,6 @@ let userSchema = mongoose.Schema(
     }
 );
 
-
 userSchema.method ({
     authenticate: function (password) {
         let inputPasswordHash = encryption.hashPassword(password, this.salt);
@@ -62,15 +61,13 @@ userSchema.method ({
 
     prepareInsert: function() {
         for (let role of this.roles) {
-            Role.findbyId(role).then(role => {
+            Role.findById(role).then(role => {
                 role.users.push(this.id);
                 role.save();
             });
         }
     },
 });
-
-
 
 const User = mongoose.model('User', userSchema);
 
