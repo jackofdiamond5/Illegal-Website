@@ -39,7 +39,7 @@ module.exports = {
                 }
             })
 
-            articleArgs.imagePath = `/uploads/${image.name}`;
+            articleArgs.imagePath = `/uploads/ListingsImages/${image.name}`;
         }
 
 
