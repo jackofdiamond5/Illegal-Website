@@ -1,7 +1,6 @@
 const userController = require('./../controllers/user');
 const articleController = require('./../controllers/article');
 const homeController = require('./../controllers/home');
-const profileController = require('./../controllers/profile');
 const adminController = require ('./../controllers/admin/admin');
 const allListingsController = require('./../controllers/alllistings');
 
@@ -27,8 +26,8 @@ module.exports = (app) => {
     app.get('/article/delete/:id', articleController.deleteGet);
     app.post('/article/delete/:id', articleController.deletePost);
 
-    app.get('/user/profile/', profileController.profileGet);
-    app.post('/user/profile/', profileController.profilePost);
+    app.get('/user/profile', userController.userProfileGet);
+    app.post('/user/profile', userController.userProfilePost);
 
     app.get('/home/listings/', allListingsController.allListings);
 

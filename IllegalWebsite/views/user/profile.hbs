@@ -5,27 +5,21 @@
         <div class="col-md-12">
             <div class="jumbotron">
                 <h2><b><center>{{user.fullName}}'s Profile</center></b></h2>
-                <form action="/user/profile">
-                    <div style="margin: 10%;">
-                        <center><img id="pic" src="" alt="No profile picture selected."></center>
-                        <center><button class="btn btn-me btn-primary" style="margin: 2%" id="update-picture">Upload picture</button>
-                        <button class="btn btn-me btn-primary" type="submit">Update</button></center>
-
-                        <input type="file" name="pic" id="uploadPic"> 
+                <form action="/user/profile" enctype="multipart/form-data" method="POST">
+                    <div style="margin: 5%%;">
+                        <center><img style="margin: 2%" id="pic" width="200" src="{{user.profilePicPath}}" alt="No profile picture selected."></center>
+                        <center>
+                            <button class="btn btn-me btn-primary" type="submit">Update</button>
+                            <input type="file" name="profilePic" id="profile-pic"> 
+                        </center>
                     </div>
                 </form>
                 
                 <h3><li><strong>Email:</strong> {{user.email}}</li></h3>
-                <h3><li><strong>Real Name:</strong> {{user.fullName}}</li></h3>
-                <h3><li><strong>Contact Info:</strong> (YET TO BE DONE)</li></h3>
+                <h3><li><strong>Code Name:</strong> {{user.fullName}}</li></h3>
+                <h3><li><strong>Contact Info:</strong> Missing</li></h3>
                 </br>
                 <h2><strong><center>Open Listings</center></strong></h2>
-
-                <script>
-                    $('#update-picture').on('click', function(){
-                        $('#uploadPic').click();
-                    })
-                </script>
             </div>
         </div>
     </div>

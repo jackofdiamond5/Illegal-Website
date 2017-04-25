@@ -8,7 +8,7 @@ module.exports = {
 
     createPost: (req, res) => {
         let articleArgs = req.body;
-
+        
         let errorMsg = '';
         if (!req.isAuthenticated()) {
             errorMsg = 'You should be logged in to make articles!'

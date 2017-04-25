@@ -25,9 +25,9 @@
 	text-align: center;	
 }
 
-#uploadPic{
+/*#uploadPic{
 	display: none;
-}
+}*/
 
 .btn:focus, .upload-btn:focus{
 	outline: 0 !important;

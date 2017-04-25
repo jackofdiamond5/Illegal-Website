@@ -10,6 +10,7 @@ let userSchema = mongoose.Schema(
         articles: [{type: mongoose.Schema.Types.ObjectId, ref:'Article'}],
         roles: [{type: mongoose.Schema.Types.ObjectId, ref:'Role'}],
         salt: {type: String, required: true},
+        profilePicPath: {type: String, default: "./../../uploads/ProfilePictures/default.jpg"}
     }
 );
 
@@ -94,7 +95,7 @@ module.exports.seedAdmin = () => {
                     fullName: 'StanchoAdmin',
                     articles: [],
                     salt: salt,
-                    roles: roles
+                    roles: roles,
                 };
 
                 User.create(adminUser).then(user => {
