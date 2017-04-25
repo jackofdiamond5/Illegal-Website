@@ -1,0 +1,1 @@
+Contains profile pictures for users.
