@@ -1,6 +1,7 @@
 const User = require('mongoose').model('User');
 const Role = require('mongoose').model('Role');
 const encryption = require('./../utilities/encryption');
+const fse = require('fs-extra');
 
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -110,9 +111,52 @@ module.exports = {
     },
 
     userProfilePost: (req, res) => {
-        let image = req.files.profilePic;
+        let userId = req.user.id;
         
+        // Get image from request
+        let image = req.files.profilePic;
+        let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
+        let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
 
-        res.render('user/profile');
+        // Generate image name and extension
+        image.name = `${imageName}_${encryption
+            .generateSalt()
+            .substring(0, 8)
+            .replace('/\//g', 'ill')}.${imageExtension}`;
+        
+        if(image){
+            image.mv(`./public/uploads/ProfilePictures/${image.name}`, err => {
+                if(err){
+                    console.log(err.message);
+                }
+            })
+        }
+
+        // Delete current local file
+        User.findById({_id: userId}).then(user => {
+            let currentFileName = user.profilePicPath.substring(user.profilePicPath.lastIndexOf('/') + 1);
+            let currentFilePath = `./public/uploads/ProfilePictures/${currentFileName}`;
+            
+            fse.ensureFile(currentFilePath, err => {
+                if(err){
+                    console.log(err.message);
+                } else {
+                    fse.remove(currentFilePath, err => {
+                        if(err){
+                            console.log(err.message);
+                        }
+                    });
+                }
+            })
+        })
+
+        // Update path in db with the new file's path
+        User.update({_id: userId}, {$set: {profilePicPath: `./../../uploads/ProfilePictures/${image.name}`}}, (err) => {
+            if(err) {
+                console.log(err.message);
+            }
+        });
+
+        res.redirect('/user/profile');
     }
 };

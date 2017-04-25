@@ -23,10 +23,12 @@ module.exports = {
             return;
         }
 
+        // Get image from request
         let image = req.files.image;
         let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
         let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
 
+        // Generate image name and extension
         image.name = `${imageName}_${randomChars
             .generateSalt()
             .substring(0, 8)
@@ -39,6 +41,7 @@ module.exports = {
                 }
             })
 
+            // Save new image path to database
             articleArgs.imagePath = `/uploads/ListingsImages/${image.name}`;
         }
 

@@ -17,5 +17,4 @@ module.exports = (config) => {
     require('./../models/Role').initialize();
     require('./../models/User').seedAdmin();
     require('./../models/Article');
-    //require('./../models/Profile');
 };

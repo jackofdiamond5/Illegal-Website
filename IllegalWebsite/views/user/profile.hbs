@@ -6,11 +6,11 @@
             <div class="jumbotron">
                 <h2><b><center>{{user.fullName}}'s Profile</center></b></h2>
                 <form action="/user/profile" enctype="multipart/form-data" method="POST">
-                    <div style="margin: 5%%;">
+                    <div style="margin: 5%;">
                         <center><img style="margin: 2%" id="pic" width="200" src="{{user.profilePicPath}}" alt="No profile picture selected."></center>
                         <center>
-                            <button class="btn btn-me btn-primary" type="submit">Update</button>
-                            <input type="file" name="profilePic" id="profile-pic"> 
+                            <button class="btn btn-me btn-primary" type="submit" onclick="CheckFiles()">Update</button>
+                            <input type="file" name="profilePic" id="profile-pic" required> 
                         </center>
                     </div>
                 </form>
@@ -20,6 +20,15 @@
                 <h3><li><strong>Contact Info:</strong> Missing</li></h3>
                 </br>
                 <h2><strong><center>Open Listings</center></strong></h2>
+
+                <script>
+                    function CheckFiles(){
+                        var files = document.getElementById('profile-pic').files;
+                        if(files.length === 0){
+                            alert('You need to upload a file first!');
+                        }
+                    }
+                </script>
             </div>
         </div>
     </div>
