@@ -17,7 +17,7 @@
     </div>
 </div>
 </br></br>
-<center>Newest Listings</center>
+<center><h1>Newest Listings</h1></center>
 <div class="container body-content">
     <div class="row">
         </br></br>
@@ -26,19 +26,21 @@
             <div class="col-md-4">
                 <article>
                     <header>
-                        <h2>{{this.title}}</h2>
+                        <h2><u><b>{{this.title}}</u></h2><span style="color:green; float:right; font-size:27px; ">{{this.price}}$</span></b>
+
                     </header>
 
-                    <p>
+                    <p >
                         {{this.content}}
+
                     </p>
 
                     {{#if this.imagePath}}
-                        <img src="{{this.imagePath}}" alt="Weapon" width="100px"> 
+                       <center><img src="{{this.imagePath}}" alt="Weapon" height="250" width="380px"></center>
                     {{/if}}
 
                     <small class="author">
-                        {{this.author.fullName}}
+                        By {{this.author.fullName}}
                     </small>
 
                     <footer>
@@ -50,6 +52,7 @@
                 </article>
             </div>
         {{/each}}
+
 
     </div>
            </br> <p><center><a class="btn btn-default  btn-med" href="/home/listings">All Listings</a></center></p></br>

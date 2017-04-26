@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const fileUpload = require('express-fileupload');
+const hbsHelpers = require('../helpers/handlebarsHelpers');
 
 module.exports = (app, config) => {
     // View engine setup.

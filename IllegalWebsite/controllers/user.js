@@ -40,6 +40,7 @@ module.exports = {
                         email: registerArgs.email,
                         passwordHash: passwordHash,
                         fullName: registerArgs.fullName,
+                        skype: registerArgs.skype,
                         salt: salt,
                         roles: roles
                     };

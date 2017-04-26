@@ -4,60 +4,80 @@
     <div class="row">
         <div class="col-md-12">
             <div class="jumbotron">
-                <h2><b><center>{{user.fullName}}'s Profile</center></b></h2>
+                <h2><b>
+                    <center>{{user.fullName}}'s Profile</center>
+                </b></h2>
                 <form action="/user/profile" enctype="multipart/form-data" method="POST">
-                    <div style="margin: 5%;">
-                        <center><img style="margin: 2%" id="pic" width="200" src="{{user.profilePicPath}}" alt="No profile picture selected."></center>
+                    <div>
+                        <center><img style="margin: 2%" id="pic" width="200" src="{{user.profilePicPath}}"
+                                     alt="No profile picture selected."></center>
                         <center>
+                            <label class="btn btn-default btn-file">
+                                Browse <input type="file" style="display: none;" class="btn btn-default btn-file"
+                                              name="profilePic" id="profile-pic" required>
+                            </label>
                             <button class="btn btn-me btn-primary" type="submit" onclick="CheckFiles()">Update</button>
-                            <input type="file" name="profilePic" id="profile-pic" required> 
+
+                            </br></br>
+
                         </center>
                     </div>
                 </form>
-                
-                <h3><li><strong>Email:</strong> {{user.email}}</li></h3>
-                <h3><li><strong>Code Name:</strong> {{user.fullName}}</li></h3>
-                <h3><li><strong>Contact Info:</strong> Missing</li></h3>
+
+                <h3>
+                    <li><strong>Email:</strong> {{user.email}}</li>
+                </h3>
+                <h3>
+                    <li><strong>Code Name:</strong> {{user.fullName}}</li>
+                </h3>
+                <h3>
+                    <li><strong>Skype:</strong> {{user.skype}}</li>
+                </h3>
                 </br>
-                <h2><strong><center>Open Listings</center></strong></h2>
-
-                {{#each articles}}
-                    <div class="col-md-4">
-                        <article>
-                            <header>
-                                <h2>{{this.title}}</h2>
-                            </header>
-
-                            <p>{{this.content}}
-                            </p>
-                            
-                             {{#if this.imagePath}}
-                                <img src="{{this.imagePath}}" alt="Weapon" width="100px"> 
-                             {{/if}}
-
-                            <small class="author">
-                                {{this.author.fullName}}
-                            </small>
-
-                            <footer>
-                                <div class="pull-right">
-                                    <a class="btn btn-default btn-xs" href="/article/details/{{this.id}}">Read more &raquo;</a>
-                                </div>
-
-                            </footer>
-                        </article>
-                    </div>
-                {{/each}}
-
-                <script>
-                    function CheckFiles(){
-                        var files = document.getElementById('profile-pic').files;
-                        if(files.length === 0){
-                            alert('You need to upload a file first!');
-                        }
-                    }
-                </script>
             </div>
+            <h2><strong>
+                <center>Open Listings</center>
+            </strong></h2>
+
+            {{#each articles}}
+                <div class="col-md-4">
+                    <article>
+                        <header>
+                            <h2><u><b>{{this.title}}</u></h2><span style="color:green; float:right; font-size:27px; ">{{this.price}}$</span></b>
+                        </header>
+
+                        <p>{{this.content}}
+                        </p>
+
+                        {{#if this.imagePath}}
+                          <center><img src="{{this.imagePath}}" alt="Weapon" height="250" width="380px"></center>
+                        {{/if}}
+
+                        <small class="author">
+                            By {{this.author.fullName}}
+                        </small>
+
+                        <footer>
+                            <div class="pull-right">
+                                <a class="btn btn-default btn-xs" href="/article/details/{{this.id}}">Read more
+                                    &raquo;</a>
+                            </div>
+                            </br></br>
+
+                        </footer>
+                    </article>
+                </div>
+            {{/each}}
+
+            <script>
+                function CheckFiles() {
+                    var files = document.getElementById('profile-pic').files;
+                    if (files.length === 0) {
+                        alert('You need to upload a file first!');
+                    }
+                }
+            </script>
+
         </div>
     </div>
 </div>

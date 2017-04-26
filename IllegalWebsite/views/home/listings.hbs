@@ -24,14 +24,19 @@
             <div class="col-md-4">
                 <article>
                     <header>
-                        <h2>{{this.title}}</h2>
+                        <h2><u><b>{{this.title}}</u></h2><span style="color:green; float:right; font-size:27px; ">{{this.price}}$</span></b>
                     </header>
 
-                    <p>{{this.content}}
+                    {{#if this.imagePath}}
+                        <center><img src="{{this.imagePath}}" alt="Weapon" height="250" width="380px"></center>
+                    {{/if}}
+
+                    <p>
+                        {{this.content}}
                     </p>
 
                     <small class="author">
-                        {{this.author.fullName}}
+                       By {{this.author.fullName}}
                     </small>
 
                     <footer>
@@ -42,18 +47,12 @@
                     </footer>
                 </article>
             </div>
+
         {{/each}}
 
     </div>
     </br> <p><center><a class="btn btn-default  btn-med " href="/">Go Back</a></center></p></br>
-    <center><ul class="pagination" >
-        <li class="disabled"><a href="#">&laquo;</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
-    </ul></center>
+
+
 
 </div>

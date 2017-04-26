@@ -1,24 +1,41 @@
-<div class="container body-content">
+<div class="container body-content" xmlns="http://www.w3.org/1999/html">
     <div class="row">
         </br></br></br></br></br></br>
-        <div class="col-md-12">
+        <div class="col-md-5 pull-left ">
+
             <article>
                 <header>
-                    <h2>{{title}}</h2>
+                    <h2><u><b>{{this.title}}</u></h2><span style="color:green; font-size:27px; ">{{this.price}}
+                    $</span></b>
                 </header>
-                
-                {{#if imagePath}}
-                    <img src="{{imagePath}}" alt="Weapon" width="300px"> 
-                {{/if}}
-                
-                <p>
-                    {{content}}
-                </p>
 
+                {{#if imagePath}}
+                    <img src="{{imagePath}}" alt="Weapon" height="350" width="600">
+                {{/if}}
                 <small class="author">
                     {{author.fullName}}
                 </small>
+                <big class="author pull-right" >
+                   Skype: {{author.skype}}
+                </big>
 
+            </article>
+        </div>
+        <div class="col-md-5 pull-right">
+
+
+            </br></br></br></br></br>
+            <div class="jumbotron">
+                <h2><b>{{this.title}}</b></h2>
+                <p>{{content}}</p>
+
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 ">
                 <footer>
                     <div class="pull-right">
                         <a class="btn btn-success btn-xs" href="/article/edit/{{id}}">Edit &raquo;</a>
@@ -26,7 +43,10 @@
                         <a class="btn btn-default btn-xs" href="/">Back &raquo;</a>
                     </div>
                 </footer>
-            </article>
+            </div>
+
         </div>
+
+
     </div>
 </div>
