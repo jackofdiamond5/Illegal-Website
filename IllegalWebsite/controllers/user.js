@@ -1,5 +1,6 @@
 const User = require('mongoose').model('User');
 const Role = require('mongoose').model('Role');
+const Article = require('mongoose').model('Article');
 const encryption = require('./../utilities/encryption');
 const fse = require('fs-extra');
 
@@ -104,9 +105,14 @@ module.exports = {
     userProfileGet: (req, res) => {
         if(!req.isAuthenticated()){
             res.redirect('/user/login');
-        }
-        else{
-            res.render('user/profile');
+        } else {
+            let userId = req.user.id;
+            
+            User.findById({_id: userId}).then(user => {
+                Article.find({author: userId}).sort('-date').populate('author').then(articles => {
+                    res.render('user/profile', {articles: articles})
+                })
+            })
         }
     },
 
@@ -123,39 +129,43 @@ module.exports = {
             .generateSalt()
             .substring(0, 8)
             .replace('/\//g', 'ill')}.${imageExtension}`;
-        
+           
         if(image){
+            // Upload image to local folder
             image.mv(`./public/uploads/ProfilePictures/${image.name}`, err => {
                 if(err){
                     console.log(err.message);
                 }
             })
-        }
 
-        // Delete current local file
-        User.findById({_id: userId}).then(user => {
-            let currentFileName = user.profilePicPath.substring(user.profilePicPath.lastIndexOf('/') + 1);
-            let currentFilePath = `./public/uploads/ProfilePictures/${currentFileName}`;
-            
-            fse.ensureFile(currentFilePath, err => {
-                if(err){
-                    console.log(err.message);
-                } else {
-                    fse.remove(currentFilePath, err => {
+            // Delete previous user profile picture from local folder
+            User.findById({_id: userId}).then(user => {
+                let currentFileName = user.profilePicPath.substring(user.profilePicPath.lastIndexOf('/') + 1);
+                let currentFilePath = `./public/uploads/ProfilePictures/${currentFileName}`;
+
+                if(currentFileName !== "default.jpg"){
+                        fse.ensureFile(currentFilePath, err => {
                         if(err){
                             console.log(err.message);
+                        } else {
+                            fse.remove(currentFilePath, err => {
+                                if(err){
+                                    console.log(err.message);
+                                }
+                            });
                         }
-                    });
-                }
+                    })
+                }        
             })
-        })
 
-        // Update path in db with the new file's path
-        User.update({_id: userId}, {$set: {profilePicPath: `./../../uploads/ProfilePictures/${image.name}`}}, (err) => {
-            if(err) {
-                console.log(err.message);
-            }
-        });
+            // Update path in db with the new file's path
+            User.update({_id: userId}, {$set: {profilePicPath: `./../../uploads/ProfilePictures/${image.name}`}}, (err) => {
+                if(err) {
+                    console.log(err.message);
+                    res.render('/user/profile', {error: err.message});
+                }
+            });
+        }
 
         res.redirect('/user/profile');
     }

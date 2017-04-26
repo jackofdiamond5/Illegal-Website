@@ -33,7 +33,8 @@ module.exports = {
             .generateSalt()
             .substring(0, 8)
             .replace('/\//g', 'ill')}.${imageExtension}`;
-        
+
+        // Upload image to local folder   
         if(image){
             image.mv(`./public/uploads/ListingsImages/${image.name}`, err => {
                 if(err){
