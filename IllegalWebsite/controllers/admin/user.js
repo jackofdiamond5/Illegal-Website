@@ -1,6 +1,8 @@
 const User = require('mongoose').model('User');
 const Role = require('mongoose').model('Role');
+const Article = require('mongoose').model('Article');
 const encryption = require('./../../utilities/encryption');
+const fse = require('fs-extra');
 
 module.exports = {
     all: (req, res) => {
@@ -99,6 +101,45 @@ module.exports = {
 
         User.findOneAndRemove({_id: id}).then(user => {
             user.prepareDelete();
+
+            // On user delete, remove the user's profile picture from the local folder
+            let currentFileName = user.profilePicPath.substring(user.profilePicPath.lastIndexOf('/') + 1);
+            let currentFilePath = `./public/uploads/ProfilePictures/${currentFileName}`;
+
+            if(currentFileName !== "default.jpg"){
+                fse.ensureFile(currentFilePath, err => {
+                    if(err){
+                        console.log(err.message);
+                    } else {
+                        fse.remove(currentFilePath, err => {
+                            if(err){
+                                console.log(err.message);
+                            }
+                        });
+                    }
+                })
+            }        
+
+            // Get all listings' images and delete them
+            Article.find({author: id}).then(articles => {
+                for(let i = 0; i < articles.length; i++){
+                    let imageName = articles[i].imagePath.substring(articles[i].imagePath.lastIndexOf('/') + 1);
+                    let imagePath = `./public/uploads/ListingsImages/${imageName}`;
+
+                    fse.ensureFile(imagePath, err => {
+                        if(err){
+                            console.log(err.message);
+                        } else {
+                            fse.remove(imagePath, err => {
+                                if(err){
+                                    console.log(err.message);
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+
             res.redirect('/admin/user/all');
         })
     }
