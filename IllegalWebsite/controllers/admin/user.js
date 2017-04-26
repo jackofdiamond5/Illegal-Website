@@ -46,7 +46,7 @@ module.exports = {
                 errorMsg = 'Email cannot be null!'
             } else if (!userArgs.fullName) {
                 errorMsg = 'Name cannot be null!'
-            } else if (!userArgs.password !== userArgs.confirmedPassword) {
+            } else if (userArgs.password !== userArgs.confirmedPassword) {
                 errorMsg = 'Passwords do not match!'
             }
 
@@ -77,7 +77,7 @@ module.exports = {
                             if (err) {
                                 res.redirect('/');
                             } else {
-                                res.redirect('admin/user/all');
+                                res.redirect('/admin/user/all');
                             }
                         })
                     })
