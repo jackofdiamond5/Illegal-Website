@@ -30,6 +30,10 @@
 
                             <p>{{this.content}}
                             </p>
+                            
+                             {{#if this.imagePath}}
+                                <img src="{{this.imagePath}}" alt="Weapon" width="100px"> 
+                             {{/if}}
 
                             <small class="author">
                                 {{this.author.fullName}}
