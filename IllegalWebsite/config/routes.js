@@ -7,6 +7,7 @@ const allListingsController = require('./../controllers/alllistings');
 module.exports = (app) => {
     app.get('/', homeController.index);
 
+
     app.get('/user/register', userController.registerGet);
     app.post('/user/register', userController.registerPost);
 
@@ -53,6 +54,10 @@ module.exports = (app) => {
     app.get('/admin/user/delete/:id', adminController.user.deleteGet);
     app.post('/admin/user/delete/:id', adminController.user.deletePost);
 
+    app.get('/admin/category/all', adminController.category.all);
 
+    app.get('/admin/category/create', adminController.category.createGet);
+    app.post('/admin/category/create', adminController.category.createPost);
 
+    app.get('/category/:id', homeController.listCategoryArticles);
 };
