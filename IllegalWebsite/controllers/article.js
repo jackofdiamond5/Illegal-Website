@@ -1,15 +1,14 @@
 const Article = require('mongoose').model('Article');
+const Category = require('mongoose').model('Category');
 const User = require('mongoose').model('User');
 const randomChars = require('./../utilities/encryption');
 const fse = require('fs-extra');
 
 function GenerateImgNameAndExtension(image) {
-    if(image){
-        let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
-        let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
+    let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
+    let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
 
-        image.name = `${imageName}_${randomChars.generateSalt().substring(0, 8).replace('/\//g', 'ill')}.${imageExtension}`;
-    }
+    image.name = `${imageName}_${randomChars.generateSalt().substring(0, 8).replace('/\//g', 'ill')}.${imageExtension}`;
 
     return image;
 }
@@ -19,11 +18,11 @@ function DeleteLocalImage(article) {
     let currentImagePath = `./public/uploads/ListingsImages/${currentImageName}`;
 
     fse.ensureFile(currentImagePath, err => {
-        if(err) {
+        if (err) {
             console.log(err.message);
         } else {
             fse.remove(currentImagePath, err => {
-                if(err) {
+                if (err) {
                     console.log(err.message);
                 }
             })
@@ -33,12 +32,23 @@ function DeleteLocalImage(article) {
 
 module.exports = {
     createGet: (req, res) => {
-        res.render('article/create');
+        if (!req.isAuthenticated()) {
+            let returnUrl = '/article/create';
+            req.session.returnUrl = returnUrl;
+
+            res.redirect('/user/login');
+            return;
+        }
+
+        Category.find({}).then(categories => {
+            res.render('article/create', {categories: categories});
+        });
     },
+
 
     createPost: (req, res) => {
         let articleArgs = req.body;
-        
+
         let errorMsg = '';
         if (!req.isAuthenticated()) {
             errorMsg = 'You should be logged in to make articles!'
@@ -53,16 +63,15 @@ module.exports = {
             return;
         }
 
-        
 
         // Get image from request and generate name
         let image = req.files.image;
         let finalImage = GenerateImgNameAndExtension(image);
 
         // Upload image to local folder   
-        if(image){
+        if (image) {
             image.mv(`./public/uploads/ListingsImages/${finalImage.name}`, err => {
-                if(err){
+                if (err) {
                     console.log(err.message);
                 }
             })
@@ -103,11 +112,13 @@ module.exports = {
         Article.findById(id).then(article => {
             req.user.isInRole('Admin').then(isAdmin => {
                 if (!isAdmin && !req.user.isAuthor(article)) {
-                    res.redirect('/');
-                    return;
+
+                    Category.find({}).then(categories => {
+                        article.categories = categories;
+
+                        res.render('article/edit', article)
+                    });
                 }
-        
-                res.render('article/edit', article);
             })
         })
     },
@@ -122,20 +133,18 @@ module.exports = {
         let finalImage = GenerateImgNameAndExtension(image);
 
         // Upload image to local folder   
-        if(image){
+        if (image) {
             image.mv(`./public/uploads/ListingsImages/${finalImage.name}`, err => {
-                if(err){
+                if (err) {
                     console.log(err.message);
                 }
             })
-
-            // Delete previous image from local folder
-            Article.findById({_id: id}).then(article => {
-                DeleteLocalImage(article);
-            })
         }
 
-     
+        // Delete previous image from local folder
+        Article.findById({_id: id}).then(article => {
+            DeleteLocalImage(article);
+        })
 
         let errorMsg = "";
         if (!articleArgs.title) {
@@ -147,24 +156,19 @@ module.exports = {
         if (errorMsg) {
             res.render('article/edit', {error: errorMsg});
         } else {
-            if(image){
-                Article.update({_id: id}, {$set: {
+
+            /* twa se promenq*/
+
+            Article.update({_id: id}, {
+                $set: {
                     title: articleArgs.title,
                     content: articleArgs.content,
-                    imagePath: `/uploads/ListingsImages/${image.name}`,
-                    price: articleArgs.price
-                }}).then(updateStatus => {
-                    res.redirect(`/article/details/${id}`);
-                }); 
-            } else {
-                Article.update({_id: id}, {$set: {
-                    title: articleArgs.title,
-                    content: articleArgs.content,
-                    price: articleArgs.price}
-                }).then(updateStatus => {
+                    imagePath: `/uploads/ListingsImages/${image.name}`
+                }
+            })
+                .then(updateStatus => {
                     res.redirect(`/article/details/${id}`);
                 });
-            }
         }
     },
 
