@@ -32,7 +32,11 @@
                 </h3>
                 {{#if user.skype}}
                     <h3>
-                        <li><strong>Skype:</strong> {{user.skype}}</li>
+                        {{#if user.skype}}
+                            <li><strong>Skype:</strong> {{user.skype}}</li>
+                        {{else}}
+                            <li><strong>Skype:</strong> Not Presented</li>
+                        {{/if}}
                     </h3>
                 {{/if}}
                 </br>

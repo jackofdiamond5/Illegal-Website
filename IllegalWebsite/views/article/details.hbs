@@ -16,7 +16,11 @@
                     {{author.fullName}}
                 </small>
                 <big class="author pull-right" >
-                   Skype: {{author.skype}}
+                    {{#if author.skype}}
+                        <strong>Skype:</strong> {{author.skype}}
+                    {{else}}
+                        <strong>Skype:</strong> Not Presented
+                    {{/if}}
                 </big>
 
             </article>
