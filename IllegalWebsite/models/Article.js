@@ -4,6 +4,7 @@ let articleSchema = mongoose.Schema({
     title: {type: String, required: true},
     content: {type: String, required: true},
     author: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
+    category: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Category'},
     date: {type: Date, default: Date.now()},
     imagePath: {type: String},
     price: {type: String, required: true}
@@ -16,19 +17,37 @@ articleSchema.method({
             user.articles.push(this.id);
             user.save();
         });
+
+        let Category = mongoose.model('Category');
+        Category.findById(this.category).then(category => {
+
+            if (category) {
+                category.articles.push(this.id);
+                category.save();
+            }
+        })
     },
 
- prepareDelete: function () {
+    prepareDelete: function () {
         let User = mongoose.model('User');
         User.findById(this.author).then(user => {
-            if(user){
+            if (user) {
                 user.articles.remove(this.id);
                 user.save();
             }
         });
-     
- },
-    
+
+        let Category = mongoose.model('Category');
+        Category.findById(this.category).then(category => {
+
+            if (category) {
+                category.articles.remove(this.id);
+                category.save();
+            }
+        });
+
+    },
+
 
 });
 

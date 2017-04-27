@@ -7,20 +7,33 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articleTitle">Listing Title</label>
                     <div class="col-sm-4 ">
-                        <input type="text" class="form-control" id="articleTitle" placeholder="Listing Title" name="title" required >
+                        <input type="text" class="form-control" id="articleTitle" placeholder="Listing Title"
+                               name="title" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articleContent">Weapon Description</label>
                     <div class="col-sm-6">
-                        <textarea class="form-control" id="articleContent" placeholder="Weapon Description" rows="5" name="content" required></textarea>
+                        <textarea class="form-control" id="articleContent" placeholder="Weapon Description" rows="5"
+                                  name="content" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group"><label class="col-sm-4 control-label" for="category">Category</label>
+                    <div class="col-sm-6">
+                        <select class="form-control" id="select" name="category">
+                            {{#each categories}}
+                                <option value="{{this.id}}">{{this.name}}</option>
+                            {{/each}}
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articlePrice">Listing Price</label>
                     <div class="col-sm-4 ">
-                        <input type="number"  name="price" min="20" max="10000" step="any" class="form-control" id="articlePrice" placeholder="Weapon Price in $"  required >
+                        <input type="number" name="price" min="20" max="10000" step="any" class="form-control"
+                               id="articlePrice" placeholder="Weapon Price in $" required>
 
                     </div>
                 </div>
@@ -31,22 +44,24 @@
                         <button type="reset" class="btn btn-default">Cancel</button>
 
                         <button type="submit" class="btn btn-primary" id="submit" onclick="hasPicture()">Submit</button>
-                        
-                        <button class="btn upload-btn" type="button" onclick="document.getElementById('upload-input').click()">Upload File</button>
-                        
-                        <input type="file" name="image" id="upload-input" required>         
-                    </div>  
-                </div>        
+
+                        <button class="btn upload-btn" type="button"
+                                onclick="document.getElementById('upload-input').click()">Upload File
+                        </button>
+
+                        <input type="file" name="image" id="upload-input" required>
+                    </div>
+                </div>
             </fieldset>
         </form>
         <script>
-            $('#upload-input').on('change', function(){
+            $('#upload-input').on('change', function () {
                 $('.upload-btn').html('Picture Uploaded!');
             });
 
-            function hasPicture(){
+            function hasPicture() {
                 var files = document.getElementById('upload-input').files;
-                if(files.length === 0){
+                if (files.length === 0) {
                     alert('You need to upload a picture!');
                 }
             }
