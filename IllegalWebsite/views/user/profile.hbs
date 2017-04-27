@@ -30,44 +30,49 @@
                 <h3>
                     <li><strong>Code Name:</strong> {{user.fullName}}</li>
                 </h3>
-                <h3>
-                    <li><strong>Skype:</strong> {{user.skype}}</li>
-                </h3>
+                {{#if user.skype}}
+                    <h3>
+                        <li><strong>Skype:</strong> {{user.skype}}</li>
+                    </h3>
+                {{/if}}
                 </br>
             </div>
-            <h2><strong>
-                <center>Open Listings</center>
-            </strong></h2>
+            
+            {{#if articles}}
+                <h2><strong>
+                    <center>Open Listings</center>
+                </strong></h2>
 
-            {{#each articles}}
-                <div class="col-md-4">
-                    <article>
-                        <header>
-                            <h2><u><b>{{this.title}}</u></h2><span style="color:green; float:right; font-size:27px; ">{{this.price}}$</span></b>
-                        </header>
+                {{#each articles}}
+                    <div class="col-md-4">
+                        <article>
+                            <header>
+                                <h2><u><b>{{this.title}}</u></h2><span style="color:green; float:right; font-size:27px; ">{{this.price}}$</span></b>
+                            </header>
 
-                        <p>{{this.content}}
-                        </p>
+                            <p>{{this.content}}
+                            </p>
 
-                        {{#if this.imagePath}}
-                          <center><img src="{{this.imagePath}}" alt="Weapon" height="250" width="380px"></center>
-                        {{/if}}
+                            {{#if this.imagePath}}
+                            <center><img src="{{this.imagePath}}" alt="Weapon" height="250" width="380px"></center>
+                            {{/if}}
 
-                        <small class="author">
-                            By {{this.author.fullName}}
-                        </small>
+                            <small class="author">
+                                By {{this.author.fullName}}
+                            </small>
 
-                        <footer>
-                            <div class="pull-right">
-                                <a class="btn btn-default btn-xs" href="/article/details/{{this.id}}">Read more
-                                    &raquo;</a>
-                            </div>
-                            </br></br>
+                            <footer>
+                                <div class="pull-right">
+                                    <a class="btn btn-default btn-xs" href="/article/details/{{this.id}}">Read more
+                                        &raquo;</a>
+                                </div>
+                                </br></br>
 
-                        </footer>
-                    </article>
-                </div>
-            {{/each}}
+                            </footer>
+                        </article>
+                    </div>
+                {{/each}}
+            {{/if}}
 
             <script>
                 function CheckFiles() {

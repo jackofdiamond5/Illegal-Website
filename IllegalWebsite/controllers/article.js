@@ -1,5 +1,33 @@
 const Article = require('mongoose').model('Article');
+const User = require('mongoose').model('User');
 const randomChars = require('./../utilities/encryption');
+const fse = require('fs-extra');
+
+function GenerateImgNameAndExtension(image) {
+    let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
+    let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
+
+    image.name = `${imageName}_${randomChars.generateSalt().substring(0, 8).replace('/\//g', 'ill')}.${imageExtension}`;
+
+    return image;
+}
+
+function DeleteLocalImage(article) {
+    let currentImageName = article.imagePath.substring(article.imagePath.lastIndexOf('/') + 1);
+    let currentImagePath = `./public/uploads/ListingsImages/${currentImageName}`;
+
+    fse.ensureFile(currentImagePath, err => {
+        if(err) {
+            console.log(err.message);
+        } else {
+            fse.remove(currentImagePath, err => {
+                if(err) {
+                    console.log(err.message);
+                }
+            })
+        }
+    })
+}
 
 module.exports = {
     createGet: (req, res) => {
@@ -23,30 +51,23 @@ module.exports = {
             return;
         }
 
-        // Get image from request
-        let image = req.files.image;
-        let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
-        let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
+        
 
-        // Generate image name and extension
-        image.name = `${imageName}_${randomChars
-            .generateSalt()
-            .substring(0, 8)
-            .replace('/\//g', 'ill')}.${imageExtension}`;
+        // Get image from request and generate name
+        let image = req.files.image;
+        let finalImage = GenerateImgNameAndExtension(image);
 
         // Upload image to local folder   
         if(image){
-            image.mv(`./public/uploads/ListingsImages/${image.name}`, err => {
+            image.mv(`./public/uploads/ListingsImages/${finalImage.name}`, err => {
                 if(err){
                     console.log(err.message);
                 }
             })
 
             // Save new image path to database
-            articleArgs.imagePath = `/uploads/ListingsImages/${image.name}`;
+            articleArgs.imagePath = `/uploads/ListingsImages/${finalImage.name}`;
         }
-
-
 
         articleArgs.author = req.user.id;
         Article.create(articleArgs).then(article => {
@@ -83,7 +104,7 @@ module.exports = {
                     res.redirect('/');
                     return;
                 }
-
+        
                 res.render('article/edit', article);
             })
         })
@@ -93,6 +114,24 @@ module.exports = {
         let id = req.params.id;
 
         let articleArgs = req.body;
+
+        // Get image from request and generate name
+        let image = req.files.image;
+        let finalImage = GenerateImgNameAndExtension(image);
+
+        // Upload image to local folder   
+        if(image){
+            image.mv(`./public/uploads/ListingsImages/${finalImage.name}`, err => {
+                if(err){
+                    console.log(err.message);
+                }
+            })
+        }
+
+        // Delete previous image from local folder
+        Article.findById({_id: id}).then(article => {
+            DeleteLocalImage(article);
+        })
 
         let errorMsg = "";
         if (!articleArgs.title) {
@@ -104,7 +143,11 @@ module.exports = {
         if (errorMsg) {
             res.render('article/edit', {error: errorMsg});
         } else {
-            Article.update({_id: id}, {$set: {title: articleArgs.title, content: articleArgs.content}})
+            Article.update({_id: id}, {$set: {
+                title: articleArgs.title,
+                content: articleArgs.content,
+                imagePath: `/uploads/ListingsImages/${image.name}`}
+            })
                 .then(updateStatus => {
                     res.redirect(`/article/details/${id}`);
                 });
@@ -139,8 +182,8 @@ module.exports = {
 
         Article.findOneAndRemove({_id: id}).then(article => {
             article.prepareDelete();
-            res.redirect('/')
-
+            DeleteLocalImage(article);
+            res.redirect('/');
         });
     }
 };
