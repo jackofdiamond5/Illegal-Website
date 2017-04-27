@@ -1,3 +1,9 @@
-const handlebars = require('hbs');
+const Handlebars = require('hbs');
 
-handlebars.registerHelper('paginate', require('express-handlebars-paginate'));
+Handlebars.registerHelper('restrictSize', function(content) {
+    if(content.length > 30){
+        return content.substring(0, 30) + ". . .";
+    }
+    
+    return content;
+})  

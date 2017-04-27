@@ -37,7 +37,7 @@
 
                              <button class="btn upload-btn" type="button" onclick="document.getElementById('upload-input').click()">Upload File</button>
                         
-                            <input type="file" name="image" id="upload-input" required>
+                            <input type="file" name="image" id="upload-input">
                         </div>
                     </div>
                 <center>Picture<img src="{{imagePath}}" alt="Weapon" height="300" width="600" style="margin: 2%;"></center>
@@ -47,13 +47,6 @@
             $('#upload-input').on('change', function(){
                 $('.upload-btn').html('Picture Uploaded!');
             });
-
-            function hasPicture(){
-                var files = document.getElementById('upload-input').files;
-                if(files.length === 0){
-                    alert('You need to upload a picture!');
-                }
-            }
         </script>
 
 

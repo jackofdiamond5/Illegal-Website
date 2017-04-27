@@ -4,10 +4,12 @@ const randomChars = require('./../utilities/encryption');
 const fse = require('fs-extra');
 
 function GenerateImgNameAndExtension(image) {
-    let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
-    let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
+    if(image){
+        let imageName = image.name.substring(0, image.name.lastIndexOf('.'));
+        let imageExtension = image.name.substring(image.name.lastIndexOf('.') + 1);
 
-    image.name = `${imageName}_${randomChars.generateSalt().substring(0, 8).replace('/\//g', 'ill')}.${imageExtension}`;
+        image.name = `${imageName}_${randomChars.generateSalt().substring(0, 8).replace('/\//g', 'ill')}.${imageExtension}`;
+    }
 
     return image;
 }
@@ -126,12 +128,14 @@ module.exports = {
                     console.log(err.message);
                 }
             })
+
+            // Delete previous image from local folder
+            Article.findById({_id: id}).then(article => {
+                DeleteLocalImage(article);
+            })
         }
 
-        // Delete previous image from local folder
-        Article.findById({_id: id}).then(article => {
-            DeleteLocalImage(article);
-        })
+     
 
         let errorMsg = "";
         if (!articleArgs.title) {
@@ -143,14 +147,24 @@ module.exports = {
         if (errorMsg) {
             res.render('article/edit', {error: errorMsg});
         } else {
-            Article.update({_id: id}, {$set: {
-                title: articleArgs.title,
-                content: articleArgs.content,
-                imagePath: `/uploads/ListingsImages/${image.name}`}
-            })
-                .then(updateStatus => {
+            if(image){
+                Article.update({_id: id}, {$set: {
+                    title: articleArgs.title,
+                    content: articleArgs.content,
+                    imagePath: `/uploads/ListingsImages/${image.name}`,
+                    price: articleArgs.price
+                }}).then(updateStatus => {
+                    res.redirect(`/article/details/${id}`);
+                }); 
+            } else {
+                Article.update({_id: id}, {$set: {
+                    title: articleArgs.title,
+                    content: articleArgs.content,
+                    price: articleArgs.price}
+                }).then(updateStatus => {
                     res.redirect(`/article/details/${id}`);
                 });
+            }
         }
     },
 

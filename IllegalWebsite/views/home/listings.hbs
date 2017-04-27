@@ -11,16 +11,18 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                     <button type="submit" class="btn btn-default">Submit</button>
-                </div></form>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 </br></br>
-<div class="container body-content">
+<div id="easyPaginate" class="container body-content">
     <div class="row">
         </br></br>
-
-        {{#each articles}}
+             
+            {{#each articles}}
             <div class="col-md-4">
                 <article>
                     <header>
@@ -36,7 +38,7 @@
                     </p>
 
                     <small class="author">
-                       By {{this.author.fullName}}
+                    By {{this.author.fullName}}
                     </small>
 
                     <footer>
@@ -47,12 +49,19 @@
                     </footer>
                 </article>
             </div>
-
         {{/each}}
-
+        
     </div>
+
+    
     </br> <p><center><a class="btn btn-default  btn-med " href="/">Go Back</a></center></p></br>
 
-
+    <script>
+        $('#easyPaginate').easyPaginate({
+            paginateElement: 'article',
+            elementsPerPage: 2,
+            effect: 'slide'
+        });
+    </script>
 
 </div>

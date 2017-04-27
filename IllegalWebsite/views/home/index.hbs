@@ -30,9 +30,8 @@
 
                     </header>
 
-                    <p>
-                        {{this.content}}
-
+                    <p> 
+                        {{restrictSize this.content}}
                     </p>
 
                     {{#if this.imagePath}}
@@ -52,8 +51,6 @@
                 </article>
             </div>
         {{/each}}
-
-
     </div>
            </br> <p><center><a class="btn btn-default  btn-med" href="/home/listings">All Listings</a></center></p></br>
 </div>
