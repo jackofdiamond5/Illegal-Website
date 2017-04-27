@@ -4,18 +4,27 @@
             <fieldset>
                 <legend>Delete Article</legend>
 
-                <img src="{{imagePath}}" alt="Weapon" height="150" width="200" style="margin: 2%;">
+                <center><img src="{{this.article.imagePath}}" alt="Weapon" height="150" width="200" style="margin: 2%;"></center>
 
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articleTitle">Article Title</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="articleTitle" placeholder="Article Title" value="{{title}}" name="title" disabled>
+                        <input type="text" class="form-control" id="articleTitle" placeholder="Article Title" value="{{this.article.title}}" name="title" disabled>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="articleContent">Content</label>
                     <div class="col-sm-6">
-                        <textarea class="form-control" id="articleContent" rows="5" name="content" disabled>{{content}}</textarea>
+                        <textarea class="form-control" id="articleContent" rows="5" name="content" disabled>{{this.article.content}}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="articleContent">Category</label>
+                    <div class="col-sm-6">
+                        <select name="category" class="form-control" id="select" disabled>
+                        <option value="{{this.category.id}}">{{this.category.name}}</option>
+                        </select>
                     </div>
                 </div>
 

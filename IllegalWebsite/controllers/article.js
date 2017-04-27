@@ -217,7 +217,9 @@ module.exports = {
                 }
             })
 
-            res.render('article/delete', article);
+            Category.findById(article.category).then(category => {
+                res.render('article/delete', {article, category});
+            })
         })
     },
 
