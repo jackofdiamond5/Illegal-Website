@@ -60,4 +60,7 @@ module.exports = (app) => {
     app.post('/admin/category/create', adminController.category.createPost);
 
     app.get('/category/:id', homeController.listCategoryArticles);
+
+    app.get('/admin/category/edit/:id', adminController.category.editGet);
+    app.post('/admin/category/edit/:id', adminController.category.editPost);
 };
