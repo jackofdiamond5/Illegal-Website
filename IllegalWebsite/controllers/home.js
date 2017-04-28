@@ -22,7 +22,7 @@ module.exports = {
                     if (err) {
                         console.log(err.message);
                     }
-
+                    
                     res.render('home/article', {articles: category.articles})
                 });
             })

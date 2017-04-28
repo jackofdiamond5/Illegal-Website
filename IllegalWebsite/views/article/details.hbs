@@ -3,6 +3,7 @@
         </br></br></br></br></br></br>
         <div class="col-md-5 pull-left ">
             </br></br></br>
+            
             <article>
                 <header>
                     <h2><u><b>{{this.article.title}}</u></h2><span style="color:green; font-size:27px; ">{{this.article.price}}
@@ -17,13 +18,13 @@
                 {{/if}}
 
                 <strong class="author">
-                    By {{this.author.fullName}}
+                    By {{this.article.author.fullName}}
                 </strong>
 
                 <big class="author pull-right" >
 
-                    {{#if author.skype}}
-                        <strong>Skype:</strong> {{author.skype}}
+                    {{#if this.article.author.skype}}
+                        <strong>Skype:</strong> {{this.article.author.skype}}
                     {{else}}
                         <strong>Skype:</strong> Not Presented
                     {{/if}}
