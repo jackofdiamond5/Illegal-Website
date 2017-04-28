@@ -1,3 +1,5 @@
+<link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
+
 <div class="container body-content">
     <div class="row">
         </br></br></br></br></br></br>
@@ -19,16 +21,17 @@
     </div>
 </div>
 </br></br>
-<center><h1>Newest Listings</h1></center>
+<center><h1>Categories</h1></center>
 
 <div class="container body-content">
     <div class="row"> {{#each categories}}
-        <div class="col-md-6">
-            <header><h2><a href="/category/{{ this.id }}"> {{ this.name }} ({{ this.articles.length }}) </a></h2>
+        <div class="col-md-3">
+            <header><h2><strong><a style="color:black; font-family: 'Archivo Black';" href="/category/{{ this.id }}"> {{ this.name }} ({{ this.articles.length }}) </a></strong></h2>
             </header>
         </div> {{/each}} </div>
 </div>
-
+</br></br>
+<center><h1>Newest Listings</h1></center>
 <div class="container body-content">
     <div class="row">
         </br></br>

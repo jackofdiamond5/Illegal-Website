@@ -18,10 +18,6 @@
 
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
-#easyPaginate {width:300px;}
-#easyPaginate article {display:inline;}
-.easyPaginateNav a {padding:5px;}
-.easyPaginateNav a.current {font-weight:bold;text-decoration:underline;}
 
 .error{
 	margin-top: 75px;
