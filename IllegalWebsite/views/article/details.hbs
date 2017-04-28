@@ -2,22 +2,26 @@
     <div class="row">
         </br></br></br></br></br></br>
         <div class="col-md-5 pull-left ">
-
+            </br></br></br>
             <article>
                 <header>
                     <h2><u><b>{{this.article.title}}</u></h2><span style="color:green; font-size:27px; ">{{this.article.price}}
                     $</span></b>
-                    <br>
-                    <strong>Category: {{this.category.name}}</strong>
+
+                    <strong style="font-size:25px;" class="pull-right" >Category: {{this.category.name}}</strong>
+                    </br></br>
                 </header>
 
                 {{#if this.article.imagePath}}
                     <img src="{{this.article.imagePath}}" alt="Weapon" height="350" width="600">
                 {{/if}}
-                <small class="author">
-                    {{author.fullName}}
-                </small>
+
+                <strong class="author">
+                    By {{this.author.fullName}}
+                </strong>
+
                 <big class="author pull-right" >
+
                     {{#if author.skype}}
                         <strong>Skype:</strong> {{author.skype}}
                     {{else}}
